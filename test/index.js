@@ -189,6 +189,75 @@ test('ascii-pipeline', (t) => {
       ]);
       t.end();
     });
+
+    t.test('should work on values that are nested with children longer than parent', (t) => {
+      const pipe = new Pipeline([{
+          "name": "foo",
+          "status": "unknown",
+          "children": [{
+            "name": "echo $FOO",
+            "status": "unknown"
+          }]
+        },
+        {
+          "name": "install",
+          "status": "unknown",
+          "children": [{
+              "name": "npm --version",
+              "status": "unknown"
+            },
+            {
+              "name": "node --version",
+              "status": "unknown"
+            },
+            {
+              "name": "npm",
+              "status": "unknown"
+            }
+          ]
+        },
+        {
+          "name": "lint",
+          "status": "unknown",
+          "children": [{
+            "name": "npm run lint",
+            "status": "unknown"
+          }]
+        },
+        {
+          "name": "coverage",
+          "status": "unknown",
+          "children": [{
+            "name": "npm run coverage",
+            "status": "unknown"
+          }]
+        },
+        {
+          "name": "test",
+          "status": "unknown",
+          "children": [{
+            "name": "npm test",
+            "status": "unknown"
+          }]
+        },
+        {
+          "name": "docs",
+          "status": "unknown",
+          "children": [{
+            "name": "npm run generate-docs",
+            "status": "unknown"
+          }]
+        }
+      ]);
+      t.deepEqual(pipe.generate(), [
+        ['┬', '\x1b[33mfoo\x1b[39m      ', '┬', '\x1b[33minstall\x1b[39m       ', '┬', '\x1b[33mlint\x1b[39m        ', '┬', '\x1b[33mcoverage\x1b[39m        ', '┬', '\x1b[33mtest\x1b[39m    ', '┬', '\x1b[33mdocs\x1b[39m                 ', '─'],
+        ['└', '\x1b[33mecho $FOO\x1b[39m', '├', '\x1b[33mnpm --version\x1b[39m ', '└', '\x1b[33mnpm run lint\x1b[39m', '└', '\x1b[33mnpm run coverage\x1b[39m', '└', '\x1b[33mnpm test\x1b[39m', '└', '\x1b[33mnpm run generate-docs\x1b[39m', '┘'],
+        ['', '          ', '├', '\x1b[33mnode --version\x1b[39m', '┤', '             ', '', '                 ', '', '         ', '', '                      ', ''],
+        ['', '          ', '└', '\x1b[33mnpm\x1b[39m           ', '┘', '             ', '', '                 ', '', '         ', '', '                      ', '']
+      ]);
+      t.end();
+    });
+
   });
 
   t.test('@toString', (t) => {

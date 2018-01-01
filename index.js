@@ -44,7 +44,8 @@ class Pipeline {
     steps.forEach((s) => {
       if(s.children) {
         let childSize = this.getSize(s.children);
-        height = childSize.width + 1;
+        // ensure the height is the largest height possible
+        if(height < childSize.width + 1) height = childSize.width + 1;
         // we are not shortcutting this with a return because we want to also account for the width of this task
       }
       // we are only going horiztonal if we are at the top level
@@ -65,8 +66,9 @@ class Pipeline {
     };
   }
   static highlight(name, state) {
-    if(typeof window) return name;
-    
+    // makes sure that we don't output ascii colors in the browser
+    if(typeof window !== 'undefined') return name;
+
     switch(state) {
       case 'SUCCESS':
       case 'success':
@@ -104,6 +106,13 @@ class Pipeline {
         // This is only necessary if the children are longer than the parent
         step.children.forEach((cStep) => {
           if(maxWidth < cStep.name.length) maxWidth = cStep.name.length;
+        });
+
+        // in order to make sure the pipeline stays the same length
+        // we need to go to all arrays below and set the empty space
+        matrix.forEach((m, mI) => {
+          if(mI == 0) return;
+          if(!matrix[mI][name]) matrix[mI][name] = new Array(maxWidth + 1).fill(' ').join('')
         });
 
         // the nested chilren can be walked just as the parents
