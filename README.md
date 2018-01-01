@@ -51,6 +51,6 @@ This will output:
 
 Or the colorized version:
 
-<div align="center">
-  <img style="height: 250px;" src="./docs/output.png"/>
-</div>
+<p align="center">
+  <img height="350px" src="./docs/output.png"/>
+</p>
