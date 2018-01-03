@@ -91,13 +91,14 @@ class Pipeline {
   generate() {
     const { steps } = this;
     const { width, height } = this.getSize();
-    // we want to pad the width by two to make the algorithm less complex
-    let matrix = Array(height).fill(null).map(() => Array(width + 2).fill(''));
+    // we want to multiply the width by two to ensure padding on both sides
+    let matrix = Array(height).fill(null).map(() => Array(width * 2).fill(''));
 
     steps.forEach((step, i) => {
       // the offset is the index + index and for the name we make sure it always one plus that
-      let sign = i == 0 ? 0 : i + i;
-      let name = i == 0 ? 1 : i + i + 1;
+      let signLeft = i == 0 ? 1 : i * 3;
+      let name = i == 0 ? 2 : i * 3 + 1;
+      let signRight = i == 0 ? 3 : i * 3 + 2;
 
       // if we are in a nested scenario, we need to handle the children and sybols differently
       if(step.children) {
@@ -123,22 +124,18 @@ class Pipeline {
           let leftCharacter = cI == step.children.length - 1 ? '└' : '├';
           let rightCharacter = cI == step.children.length - 1 ? '┘' : '┤';
 
-          matrix[row][sign] = leftCharacter;
+          matrix[row][signLeft] = leftCharacter;
           matrix[row][name] = Pipeline.highlight(cStep.name, cStep.status) + ' '.repeat(maxWidth - cStep.name.length);
-          matrix[row][name + 1] = rightCharacter;
+          matrix[row][signRight] = rightCharacter;
         });
 
-        matrix[0][sign] = '┬';
+        matrix[0][signLeft] = '┬';
         matrix[0][name] = Pipeline.highlight(step.name, step.status) + ' '.repeat(maxWidth - step.name.length)
-      } else {
-        // This is necessary when looking back at the previous step to ensure that
-        // If the previous step had chilren it should be kept open to allow it to be closed by the children
-        if(i !== 0 && steps[i - 1].children) {
-          matrix[0][sign] = '┬';
-        } else {
-          matrix[0][sign] = '─';
-        }
+        matrix[0][signRight] = '┬';
 
+      } else {
+        matrix[0][signLeft] = '─';
+        matrix[0][signRight] = '─';
         // highlighting the name to make sure it is colorized by the state
         matrix[0][name] = Pipeline.highlight(step.name, step.status);
         // in order to make sure the pipeline stays the same length
@@ -151,11 +148,11 @@ class Pipeline {
       // As the last step ensure that the last character is -
       if(i == steps.length - 1) {
         if(i == 0 && steps[0].children) {
-          matrix[0][sign + 2] = '┬';
+          matrix[0][signRight] = '┬';
         } else if(steps[i + 1] && steps[i + 1].children) {
-          matrix[0][sign + 2] = '┬';
+          matrix[0][signRight] = '┬';
         } else {
-          matrix[0][sign + 2] = '─';
+          matrix[0][signRight] = '─';
         }
       }
     });
