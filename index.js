@@ -90,7 +90,7 @@ class Pipeline {
   generate() {
     const { steps } = this;
     const { width, height } = this.getSize();
-    // we want to pad the width by two to make the algorithm less complex
+    // we want to pad the width by two to ensure padding on both sides
     let matrix = Array(height).fill(null).map(() => Array(width + 2).fill(''));
 
     steps.forEach((step, i) => {
