@@ -2,6 +2,7 @@
 
 > 📟 ascii pipelines made easy
 
+[![Npm Version](https://img.shields.io/npm/v/ascii-pipeline.svg)](https://www.npmjs.com/package/ascii-pipeline)
 [![Build Status](https://travis-ci.org/gabrielcsapo/ascii-pipeline.svg?branch=master)](https://travis-ci.org/gabrielcsapo/ascii-pipeline)
 [![Dependency Status](https://starbuck.gabrielcsapo.com/badge/github/gabrielcsapo/ascii-pipeline/status.svg)](https://starbuck.gabrielcsapo.com/github/gabrielcsapo/ascii-pipeline)
 [![devDependency Status](https://starbuck.gabrielcsapo.com/badge/github/gabrielcsapo/ascii-pipeline/dev-status.svg)](https://starbuck.gabrielcsapo.com/github/gabrielcsapo/ascii-pipeline#info=devDependencies)
