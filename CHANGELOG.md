@@ -1,3 +1,9 @@
+# 0.1.0 (11/27/2018)
+
+- updates `babel-core` -> `@babel/core`
+- moves from `eslint` -> `standard`
+- only publish what is needed
+
 # 0.0.3 (01/03/2018)
 
 - ensures there is a buffer character between all values
