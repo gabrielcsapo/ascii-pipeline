@@ -41,6 +41,41 @@ module.exports = {
 
         pipe.toString();
       `
+  },{
+    type: "code",
+    title: "Generating multiple nested pipelines",
+    value: `
+        const Pipeline = require('ascii-pipeline');
+
+        const pipe = new Pipeline([{
+            'name': 'foo',
+            'status': 'unknown',
+            'children': [{
+              'name': 'echo $FOO',
+              'status': 'unknown'
+            }]
+          },
+          {
+            'name': 'install',
+            'status': 'unknown',
+            'children': [{
+              'name': 'npm --version',
+              'status': 'unknown'
+            },
+            {
+              'name': 'node --version',
+              'status': 'unknown'
+            },
+            {
+              'name': 'npm',
+              'status': 'unknown'
+            }
+            ]
+          }
+        ])
+
+        pipe.toString();
+      `
   }],
   output: "./docs",
   externals: [

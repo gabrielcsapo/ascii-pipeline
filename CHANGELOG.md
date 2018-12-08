@@ -1,3 +1,36 @@
+# 0.2.0 (11/29/2018)
+
+- fixes multi-stage pipelines to have separator between nested pipelines
+# before
+```
+┬ foo       ┬ install        ┬ ┬ lint         ┬ ┬ coverage         ┬ ┬ test     ┬ ┬ docs                  ─    
+└ echo $FOO ├ npm --version  ┤ └ npm run lint ┘ └ npm run coverage ┘ └ npm test ┘ └ npm run generate-docs ┘    
+            ├ node --version ┤                                                                             
+            └ npm            ┘
+```
+
+# after
+```
+┬ foo       ┬ ─ ┬ install        ┬ ─  ┬ lint         ┬ ─  ┬ coverage         ┬ ─  ┬ test     ┬ ─  ┬ docs                  ┬ ─
+└ echo $FOO ┘   ├ npm --version  ┤    └ npm run lint ┘    └ npm run coverage ┘    └ npm test ┘    └ npm run generate-docs ┘
+                ├ node --version ┤                                                                                        
+                └ npm            ┘                                                                        
+```
+- fixed padding issue with nested children
+# before
+```
+─ starting ┬ nested ┬ ─ ending ─ ┬ nested ─  
+           ├ child  ┤           ├ child  ┤  
+           └ child1 ┘           └ child1 ┘  
+```
+
+# after
+```
+─ starting ┬ nested ┬  ─ ending ─ ┬ nested ┬ ─
+           ├ child  ┤             ├ child  ┤
+           └ child1 ┘             └ child1 ┘
+```
+
 # 0.1.0 (11/27/2018)
 
 - updates `babel-core` -> `@babel/core`

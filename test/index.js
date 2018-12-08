@@ -103,9 +103,9 @@ test('ascii-pipeline', (t) => {
       }])
 
       t.deepEqual(pipe.generate(), [
-        ['', '─', '\x1b[33mstarting\x1b[39m', '┬', '\x1b[33mnested\x1b[39m', '┬', '─', '\x1b[33mending\x1b[39m', '─', ''],
-        ['', '', '         ', '├', '\x1b[33mchild\x1b[39m ', '┤', '', '       ', '', ''],
-        ['', '', '         ', '└', '\x1b[33mchild1\x1b[39m', '┘', '', '       ', '', '']
+        ['', '─', '\x1b[33mstarting\x1b[39m', '┬', '\x1b[33mnested\x1b[39m', '┬', '', '─', '\x1b[33mending\x1b[39m', '─'],
+        ['', '', '         ', '├', '\x1b[33mchild\x1b[39m ', '┤', '', '', '        ', ''],
+        ['', '', '         ', '└', '\x1b[33mchild1\x1b[39m', '┘', '', '', '        ', '']
       ])
     })
 
@@ -243,12 +243,14 @@ test('ascii-pipeline', (t) => {
         }]
       }
       ])
+      /* eslint-disable */
       t.deepEqual(pipe.generate(), [
-        ['', '┬', '\x1b[33mfoo\x1b[39m      ', '┬', '\x1b[33minstall\x1b[39m       ', '┬', '┬', '\x1b[33mlint\x1b[39m        ', '┬', '┬', '\x1b[33mcoverage\x1b[39m        ', '┬', '┬', '\x1b[33mtest\x1b[39m    ', '┬', '┬', '\x1b[33mdocs\x1b[39m                 ', '─', '', '', '', ''],
-        ['', '└', '\x1b[33mecho $FOO\x1b[39m', '├', '\x1b[33mnpm --version\x1b[39m ', '┤', '└', '\x1b[33mnpm run lint\x1b[39m', '┘', '└', '\x1b[33mnpm run coverage\x1b[39m', '┘', '└', '\x1b[33mnpm test\x1b[39m', '┘', '└', '\x1b[33mnpm run generate-docs\x1b[39m', '┘', '', '', '', ''],
-        ['', '', '          ', '├', '\x1b[33mnode --version\x1b[39m', '┤', '', '             ', '', '', '                 ', '', '', '         ', '', '', '                      ', '', '', '', '', ''],
-        ['', '', '          ', '└', '\x1b[33mnpm\x1b[39m           ', '┘', '', '             ', '', '', '                 ', '', '', '         ', '', '', '                      ', '', '', '', '', '']
+        ['', '┬', '\x1b[33mfoo\x1b[39m      ', '┬', '─', '┬', '\x1b[33minstall\x1b[39m       ', '┬', '─', '', '┬', '\x1b[33mlint\x1b[39m        ', '┬', '─', '', '┬', '\x1b[33mcoverage\x1b[39m        ', '┬', '─', '', '┬', '\x1b[33mtest\x1b[39m    ', '┬', '─', , '┬', '\x1b[33mdocs\x1b[39m                 ', '┬', '─'],
+        ['', '└', '\x1b[33mecho $FOO\x1b[39m', '┘', ' ', '├', '\x1b[33mnpm --version\x1b[39m ', '┤', ' ', '', '└', '\x1b[33mnpm run lint\x1b[39m', '┘', ' ', '', '└', '\x1b[33mnpm run coverage\x1b[39m', '┘', ' ', '', '└', '\x1b[33mnpm test\x1b[39m', '┘', ' ', , '└', '\x1b[33mnpm run generate-docs\x1b[39m', '┘'],
+        ['', ' ', '          ', '', ' ', '├', '\x1b[33mnode --version\x1b[39m', '┤', ' ', '', ' ', '             ', '', ' ', '', ' ', '                 ', '', ' ', '', ' ', '         ', , ' ', , ' ', '                      '],
+        ['', ' ', '          ', '', ' ', '└', '\x1b[33mnpm\x1b[39m           ', '┘', ' ', '', ' ', '             ', '', ' ', '', ' ', '                 ', '', ' ', '', ' ', '         ', , ' ', , ' ', '                      ']
       ])
+      /* eslint-enable */
     })
   })
 
@@ -274,7 +276,7 @@ test('ascii-pipeline', (t) => {
         status: 'UNKNOWN'
       }])
 
-      t.deepEqual(pipe.toString(), ' ─ \x1b[33mstarting\x1b[39m ┬ \x1b[33mnested\x1b[39m ┬ ─ \x1b[33mending\x1b[39m ─ \n            ├ \x1b[33mchild\x1b[39m  ┤           \n            └ \x1b[33mchild1\x1b[39m ┘           ')
+      t.deepEqual(pipe.toString(), ' ─ \x1b[33mstarting\x1b[39m ┬ \x1b[33mnested\x1b[39m ┬  ─ \x1b[33mending\x1b[39m ─\n            ├ \x1b[33mchild\x1b[39m  ┤            \n            └ \x1b[33mchild1\x1b[39m ┘            ')
     })
   })
 })
