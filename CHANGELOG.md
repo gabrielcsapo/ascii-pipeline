@@ -1,3 +1,7 @@
+# 0.2.1 (12/02/2022)
+
+- adds `IN_PROGRESS` state and changes unknown state color
+
 # 0.2.0 (11/29/2018)
 
 - fixes multi-stage pipelines to have separator between nested pipelines

@@ -14,22 +14,22 @@ test('ascii-pipeline', (t) => {
     t.test('unknown', (t) => {
       t.plan(2)
 
-      t.equal(Pipeline.highlight('hello', 'unknown'), '\x1b[33mhello\x1b[39m')
-      t.equal(Pipeline.highlight('hello', 'UNKNOWN'), '\x1b[33mhello\x1b[39m')
+      t.equal(Pipeline.highlight('hello', 'unknown'), '\x1b[30mhello\x1b[39m')
+      t.equal(Pipeline.highlight('hello', 'UNKNOWN'), '\x1b[30mhello\x1b[39m')
     })
 
     t.test('uknown not passed', (t) => {
       t.plan(2)
 
-      t.equal(Pipeline.highlight('hello'), '\x1b[33mhello\x1b[39m')
-      t.equal(Pipeline.highlight('hello'), '\x1b[33mhello\x1b[39m')
+      t.equal(Pipeline.highlight('hello'), '\x1b[30mhello\x1b[39m')
+      t.equal(Pipeline.highlight('hello'), '\x1b[30mhello\x1b[39m')
     })
 
     t.test('uknown passed wrong state', (t) => {
       t.plan(2)
 
-      t.equal(Pipeline.highlight('hello', 'woot'), '\x1b[33mhello\x1b[39m')
-      t.equal(Pipeline.highlight('hello', 'woot'), '\x1b[33mhello\x1b[39m')
+      t.equal(Pipeline.highlight('hello', 'woot'), '\x1b[30mhello\x1b[39m')
+      t.equal(Pipeline.highlight('hello', 'woot'), '\x1b[30mhello\x1b[39m')
     })
 
     t.test('fail', (t) => {
@@ -37,6 +37,13 @@ test('ascii-pipeline', (t) => {
 
       t.equal(Pipeline.highlight('hello', 'fail'), '\x1b[31mhello\x1b[39m')
       t.equal(Pipeline.highlight('hello', 'FAIL'), '\x1b[31mhello\x1b[39m')
+    })
+
+    test('in_progress', (t) => {
+      t.plan(2)
+
+      t.equal(Pipeline.highlight('hello', 'in_progress'), '\x1b[33mhello\x1b[39m')
+      t.equal(Pipeline.highlight('hello', 'IN_PROGRESS'), '\x1b[33mhello\x1b[39m')
     })
   })
 
@@ -103,9 +110,9 @@ test('ascii-pipeline', (t) => {
       }])
 
       t.deepEqual(pipe.generate(), [
-        ['', '─', '\x1b[33mstarting\x1b[39m', '┬', '\x1b[33mnested\x1b[39m', '┬', '', '─', '\x1b[33mending\x1b[39m', '─'],
-        ['', '', '         ', '├', '\x1b[33mchild\x1b[39m ', '┤', '', '', '        ', ''],
-        ['', '', '         ', '└', '\x1b[33mchild1\x1b[39m', '┘', '', '', '        ', '']
+        ['', '─', '\x1b[30mstarting\x1b[39m', '┬', '\x1b[30mnested\x1b[39m', '┬', '', '─', '\x1b[30mending\x1b[39m', '─'],
+        ['', '', '         ', '├', '\x1b[30mchild\x1b[39m ', '┤', '', '', '        ', ''],
+        ['', '', '         ', '└', '\x1b[30mchild1\x1b[39m', '┘', '', '', '        ', '']
       ])
     })
 
@@ -125,9 +132,9 @@ test('ascii-pipeline', (t) => {
       }])
 
       t.deepEqual(pipe.generate(), [
-        ['', '┬', '\x1b[33mnested\x1b[39m', '┬'],
-        ['', '├', '\x1b[33mchild\x1b[39m ', '┤'],
-        ['', '└', '\x1b[33mchild1\x1b[39m', '┘']
+        ['', '┬', '\x1b[30mnested\x1b[39m', '┬'],
+        ['', '├', '\x1b[30mchild\x1b[39m ', '┤'],
+        ['', '└', '\x1b[30mchild1\x1b[39m', '┘']
       ])
     })
 
@@ -147,9 +154,9 @@ test('ascii-pipeline', (t) => {
       }])
 
       t.deepEqual(pipe.generate(), [
-        ['', '┬', '\x1b[33mnested\x1b[39m         ', '┬'],
-        ['', '├', '\x1b[33mlong name child\x1b[39m', '┤'],
-        ['', '└', '\x1b[33mchild1\x1b[39m         ', '┘']
+        ['', '┬', '\x1b[30mnested\x1b[39m         ', '┬'],
+        ['', '├', '\x1b[30mlong name child\x1b[39m', '┤'],
+        ['', '└', '\x1b[30mchild1\x1b[39m         ', '┘']
       ])
     })
 
@@ -165,7 +172,7 @@ test('ascii-pipeline', (t) => {
       }])
 
       t.deepEqual(pipe.generate(), [
-        ['', '─', '\x1b[33mstarting\x1b[39m', '─', '\x1b[33mending\x1b[39m', '─']
+        ['', '─', '\x1b[30mstarting\x1b[39m', '─', '\x1b[30mending\x1b[39m', '─']
       ])
     })
 
@@ -178,7 +185,7 @@ test('ascii-pipeline', (t) => {
       }])
 
       t.deepEqual(pipe.generate(), [
-        ['', '─', '\x1b[33mstarting\x1b[39m', '─']
+        ['', '─', '\x1b[30mstarting\x1b[39m', '─']
       ])
     })
 
@@ -245,10 +252,10 @@ test('ascii-pipeline', (t) => {
       ])
       /* eslint-disable */
       t.deepEqual(pipe.generate(), [
-        ['', '┬', '\x1b[33mfoo\x1b[39m      ', '┬', '─', '┬', '\x1b[33minstall\x1b[39m       ', '┬', '─', '', '┬', '\x1b[33mlint\x1b[39m        ', '┬', '─', '', '┬', '\x1b[33mcoverage\x1b[39m        ', '┬', '─', '', '┬', '\x1b[33mtest\x1b[39m    ', '┬', '─', , '┬', '\x1b[33mdocs\x1b[39m                 ', '┬', '─'],
-        ['', '└', '\x1b[33mecho $FOO\x1b[39m', '┘', ' ', '├', '\x1b[33mnpm --version\x1b[39m ', '┤', ' ', '', '└', '\x1b[33mnpm run lint\x1b[39m', '┘', ' ', '', '└', '\x1b[33mnpm run coverage\x1b[39m', '┘', ' ', '', '└', '\x1b[33mnpm test\x1b[39m', '┘', ' ', , '└', '\x1b[33mnpm run generate-docs\x1b[39m', '┘'],
-        ['', ' ', '          ', '', ' ', '├', '\x1b[33mnode --version\x1b[39m', '┤', ' ', '', ' ', '             ', '', ' ', '', ' ', '                 ', '', ' ', '', ' ', '         ', , ' ', , ' ', '                      '],
-        ['', ' ', '          ', '', ' ', '└', '\x1b[33mnpm\x1b[39m           ', '┘', ' ', '', ' ', '             ', '', ' ', '', ' ', '                 ', '', ' ', '', ' ', '         ', , ' ', , ' ', '                      ']
+        ['', '┬', '\x1b[30mfoo\x1b[39m      ', '┬', '─', '┬', '\x1b[30minstall\x1b[39m       ', '┬', '─', '', '┬', '\x1b[30mlint\x1b[39m        ', '┬', '─', '', '┬', '\x1b[30mcoverage\x1b[39m        ', '┬', '─', '', '┬', '\x1b[30mtest\x1b[39m    ', '┬', '─', , '┬', '\x1b[30mdocs\x1b[39m                 ', '┬', '─'],
+        ['', '└', '\x1b[30mecho $FOO\x1b[39m', '┘', ' ', '├', '\x1b[30mnpm --version\x1b[39m ', '┤', ' ', '', '└', '\x1b[30mnpm run lint\x1b[39m', '┘', ' ', '', '└', '\x1b[30mnpm run coverage\x1b[39m', '┘', ' ', '', '└', '\x1b[30mnpm test\x1b[39m', '┘', ' ', , '└', '\x1b[30mnpm run generate-docs\x1b[39m', '┘'],
+        ['', ' ', '          ', '', ' ', '├', '\x1b[30mnode --version\x1b[39m', '┤', ' ', '', ' ', '             ', '', ' ', '', ' ', '                 ', '', ' ', '', ' ', '         ', , ' ', , ' ', '                      '],
+        ['', ' ', '          ', '', ' ', '└', '\x1b[30mnpm\x1b[39m           ', '┘', ' ', '', ' ', '             ', '', ' ', '', ' ', '                 ', '', ' ', '', ' ', '         ', , ' ', , ' ', '                      ']
       ])
       /* eslint-enable */
     })
@@ -276,7 +283,7 @@ test('ascii-pipeline', (t) => {
         status: 'UNKNOWN'
       }])
 
-      t.deepEqual(pipe.toString(), ' ─ \x1b[33mstarting\x1b[39m ┬ \x1b[33mnested\x1b[39m ┬  ─ \x1b[33mending\x1b[39m ─\n            ├ \x1b[33mchild\x1b[39m  ┤            \n            └ \x1b[33mchild1\x1b[39m ┘            ')
+      t.deepEqual(pipe.toString(), ' ─ \x1b[30mstarting\x1b[39m ┬ \x1b[30mnested\x1b[39m ┬  ─ \x1b[30mending\x1b[39m ─\n            ├ \x1b[30mchild\x1b[39m  ┤            \n            └ \x1b[30mchild1\x1b[39m ┘            ')
     })
   })
 })

@@ -33,10 +33,13 @@ const pipe = new Pipeline([{
   }, {
     name: 'child1',
     status: 'SUCCESS'
-  }]
-}, {
+  },]
+},{
+  name: 'almost',
+  status: 'IN_PROGRESS'
+},{
   name: 'ending',
-  status: 'SUCCESS'
+  status: 'UNKNOWN'
 }]);
 
 console.log(pipe.toString());
@@ -45,9 +48,9 @@ console.log(pipe.toString());
 This will output:
 
 ```bash
-─ starting ┬ nested ┬ ending ─
-           ├ child  ┤         
-           └ child1 ┘
+ ─ starting ┬ nested ┬  ─ almost ─ ─ ending ─ 
+            ├ child  ┤                        
+            └ child1 ┘                        
 ```
 
 Or the colorized version:

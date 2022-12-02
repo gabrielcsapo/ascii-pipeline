@@ -74,9 +74,11 @@ class Pipeline {
         return `\x1b[32m${name}\x1b[39m`
       case 'fail':
         return `\x1b[31m${name}\x1b[39m`
+      case 'in_progress':
+        return `\x1b[33m${name}\x1b[39m`
       case 'unknown':
       default:
-        return `\x1b[33m${name}\x1b[39m`
+        return `\x1b[25m${name}\x1b[39m`
     }
   }
   /**
